@@ -20,7 +20,7 @@ var numOfDevicesChart = new Chart(numOfDevCtx, {
             pointRadius: 5,
             pointHoverRadius: 5,
             pointBackgroundColor: '#9f00ff',
-            lineTension: 0.4
+            lineTension: 0.25
         }]
     },
 

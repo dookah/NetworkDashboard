@@ -21,7 +21,10 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', function (req, res) {
-	res.render('index', {});
+	res.render('pages/index', {});
+})
+app.get('/settings', function (req, res) {
+	res.render('pages/settings', {});
 })
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

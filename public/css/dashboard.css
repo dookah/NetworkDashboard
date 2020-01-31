@@ -4,8 +4,6 @@ body {
 
 }
 
-
-
 .is-small-padding {
 	padding: 10px;
 }
@@ -54,4 +52,11 @@ body {
 
 .positive {
 	color: #44D362;
+}
+
+.networkContent{
+	background-color: #172B4C;
+}
+.tags{
+	cursor: pointer;
 }
