@@ -1,62 +1,7 @@
 body {
-	background-color: #FFFFFF;
-	height: 100vh;
-
+	margin: 0;
+	padding: 0;
 }
-
-.is-small-padding {
-	padding: 10px;
-}
-
-.is-medium-padding {
-	padding: 20px;
-}
-
-.is-small-margin {
-	margin: 20px;
-}
-
-.selected {
-	background-color: #ebebeb;
-	border-radius: 5px;
-
-}
-
-.subtitle {
-	transition: background-color 0.3s;
-}
-
-.subtitle:hover {
-	cursor: pointer;
-	background-color: #ebebeb59;
-}
-
-.refreshIcon {
-	display: block;
-	float: right;
-	transition: 0.3s;
-	font-size: 80%;
-	line-height: 60px;
-	-webkit-transition: -webkit-transform 0.8s;
-	/* Safari */
-	transition: transform 0.8s;
-
-
-}
-
-.refreshIcon:hover {
-	transform: rotate(180deg);
-	cursor: pointer;
-
-}
-
-.positive {
-	color: #44D362;
-}
-
-.networkContent{
-	background-color: #172B4C;
-}
-.tags{
-	cursor: pointer;
+.has-padding{
+	
 }
