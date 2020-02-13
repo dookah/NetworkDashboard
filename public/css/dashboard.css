@@ -1,3 +1,4 @@
+
 body {
 	margin: 0;
 	padding: 0;
@@ -8,4 +9,21 @@ body {
 }
 html{
 	scrollbar-width: none;
+}
+.graphSection{
+	padding-left:1.5rem ;
+	padding-right: 1.5rem;
+}
+.sideIcons{
+	width: 60px; 
+	height: 50px; 
+	line-height: 50px; 
+	color: #919191; 
+	font-size: 30px; 
+	margin: 0 auto;
+	margin-top: 2rem;
+	cursor: pointer;
+}
+.rightSide{
+	height:51vh;
 }

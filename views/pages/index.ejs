@@ -18,20 +18,28 @@
 	<!-- Divide the page into two columns -->
 	<div class="columns is-gapless">
 		<!--Settings Menu on left -->
-		<div class="column is-1 has-background-light">
-
+		<div class="column is-narrow has-background-grey-dark">
+			<aside class="menu" style="width:70px">
+				<ul class="menu-list has-text-centered">
+					<br>
+					<li><a><i class="fas fa-home fa-2x has-text-white-ter"></i></a></li>
+					<br>
+					<li><a><i class="fas fa-cog fa-2x has-text-white-ter"></i></a></li>
+				</ul>
+			</aside>
 		</div>
+
 		<!--Main content on the right -->
-		<div class="column">
+		<div class="column ">
 			<!-- Section for Welcome message -->
-			<section class="hero has-background-warning is-bold">
+			<section class="hero has-background-info is-bold">
 				<div class="hero-body">
 					<div class="columns is-centered is-vcentered">
 						<div class="column">
-							<h1 class="title is-1">Welcome to BT.</h1>
-							<h2 class="subtitle">Powered by <strong>Cisco</strong> Network Infrastructure.
+							<h1 class="title is-1 has-text-white">Welcome to BT.</h1>
+							<h2 class="subtitle has-text-white">Powered by <strong>Cisco</strong> Infrastructure.
 						</div>
-						<div class="column is-1">
+						<div class="column is-2">
 							<figure class="image is-128x128">
 								<img class="is-rounded" src="public/images/btLogo.jpg">
 							</figure>
@@ -46,7 +54,7 @@
 				<div class="columns is-variable is-3">
 					<div class="column">
 						<div class="box">
-							<h1 class="subtitle has-text-dark">Number of Ports</h1>
+							<h1 class="subtitle has-text-dark">Network Devices</h1>
 							<h1 class="title has-text-dark">365</h1>
 							<h1><span class="has-text-success">+3.46%</span> since last month</h1>
 						</div>
@@ -73,19 +81,32 @@
 						</div>
 					</div>
 				</div>
-
-
-
 			</section>
+
+			<div class="graphSection rightSide">
+				<div class="columns">
+					<div class="column is-8">
+						<div class="box">
+							<canvas id="myChart" width="400" height="140"></canvas>
+						</div>
+					</div>
+					<div class="column is-4">
+						<div class="box">
+							<canvas id="myChart2" width="150" height="111"></canvas>
+						</div>
+						</d>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-	</section>
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-firestore.js"></script>
-	<script src="public/js/script.js"></script>
+		</section>
+
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-firestore.js"></script>
+		<script src="public/js/script.js"></script>
 </body>
 
 </html>

@@ -17,14 +17,14 @@ var numOfDevicesChart = new Chart(numOfDevCtx, {
             //Line Background Transparent
             backgroundColor: 'rgb(255, 99, 132, 0)',
             //Color of the Line
-            borderColor: '#0d274d',
+            borderColor: '#ffff',
             //Date from left to right, should be length 7
             data: [0, 10, 5, 2, 20, 30, 45],
             pointRadius: 0,
             pointHoverRadius: 5,
             pointBackgroundColor: '#9f00ff',
-            lineTension: 0.3,
-            backgroundColor: '#00bceb'
+            lineTension: 0.35,
+            backgroundColor: '#7957d5'
         }]
     },
 
@@ -74,3 +74,14 @@ function openModal(id) {
 function closeModal(id) {
     $('#' + id).detach().prependTo(('#' + id + '-placeholder')).addClass('hide');
 }
+
+var config = {
+    apiKey: "AIzaSyD8szGZGGZsuruITbUe6VWS-vZMq492bKI",
+    authDomain: "dashboard-cisco.firebaseapp.com",
+    databaseURL: "https://dashboard-cisco.firebaseio.com/",
+    storageBucket: "bucket.appspot.com"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
