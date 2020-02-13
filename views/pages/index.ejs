@@ -9,6 +9,7 @@
 	<!--Leveraging the Bulma CSS Kit CDN-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
 	<link rel="stylesheet" href="public/css/dashboard.css">
+	<link rel="stylesheet" href="public/css/icons/css/collab-ui-icons.min.css">
 	<!--Font awesome for icons-->
 	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
@@ -18,70 +19,78 @@
 	<!-- Divide the page into two columns -->
 	<div class="columns is-gapless">
 		<!--Settings Menu on left -->
-		<div class="column is-narrow has-background-grey-dark is-hidden-touch" style="height: 100vh;">
-			<aside class="menu" style="width:70px">
+		<div class="column is-narrow is-hidden-touch" style="height: 100vh;">
+			<aside class="menu" style="width:75px; padding:12px;">
+				<p class="menu-label">
+					<a class="has-text-link"> <i class="cui-icon icon icon-cisco-logo"></i></a>
+				</p>
 				<ul class="menu-list has-text-centered">
 					<br>
-					<li><a><i class="fas fa-home fa-2x has-text-white-ter"></i></a></li>
+					<li><a href="http://localhost:8080/" class="box has-text-link"> <i class="cui-icon icon icon-home_32"></i></a></li>
 					<br>
-					<li><a><i class="fas fa-cog fa-2x has-text-white-ter"></i></a></li>
+					
+					<li><a> <i class="cui-icon icon icon-settings_32"></i></a></li>
 				</ul>
 			</aside>
 		</div>
 
 		<!--Main content on the right -->
-		<div class="column ">
+		<div class="column" style="background-color: #F5F6FA;">
 			<!-- Section for Welcome message -->
-			<section class="hero has-background-info is-bold">
-				<div class="hero-body">
-					<div class="columns is-centered is-vcentered">
-						<div class="column">
-							<h1 class="title is-1 has-text-white">Welcome to <strong>BT</strong>.</h1>
-							<h2 class="subtitle has-text-white">Powered by <strong>Cisco</strong> Infrastructure.
-						</div>
-						<div class="column is-2 is-hidden-touch">
-							<figure class="image is-128x128">
-								<img class="is-rounded" src="public/images/btLogo.jpg">
-							</figure>
-						</div>
 
+			<div class="columns graphSection" style="padding-top: 1.5rem;">
+				<div class="column">
+					<div class="box">
+						<div class="columns is-centered is-vcentered">
+							<div class="column">
+								<h1 class="title is-1 ">Welcome to <strong>BT</strong>.</h1>
+								<h2 class="subtitle ">Powered by <strong>Cisco</strong>
+									Infrastructure.
+							</div>
+							<div class="column is-hidden-touch">
+								<figure class="image is-128x128 is-pulled-right">
+									<img class="is-rounded" src="public/images/btLogo.jpg">
+								</figure>
+							</div>
+						</div>
 					</div>
 				</div>
-			</section>
+			</div>
+
 
 			<!-- Section for quick glance info-->
-			<section class="section">
-				<div class="columns is-variable is-3">
-					<div class="column">
-						<div class="box">
-							<h1 class="subtitle has-text-dark">Network Devices</h1>
-							<h1 class="title has-text-dark">365</h1>
-							<h1><span class="has-text-success">+3.46%</span> since last month</h1>
-						</div>
-					</div>
-					<div class="column">
-						<div class="box">
-							<h1 class="subtitle has-text-dark">Number of Ports</h1>
-							<h1 class="title has-text-dark">365</h1>
-							<h1><span class="has-text-success">+3.46%</span> since last month</h1>
-						</div>
-					</div>
-					<div class="column">
-						<div class="box">
-							<h1 class="subtitle has-text-dark">Number of Ports</h1>
-							<h1 class="title has-text-dark">365</h1>
-							<h1><span class="has-text-success">+3.46%</span> since last month</h1>
-						</div>
-					</div>
-					<div class="column">
-						<div class="box">
-							<h1 class="subtitle has-text-dark">Number of Ports</h1>
-							<h1 class="title has-text-dark">365</h1>
-							<h1><span class="has-text-success">+3.46%</span> since last month</h1>
-						</div>
+
+			<div class="columns graphSection">
+				<div class="column is-3">
+					<div class="box">
+						<h1 class="subtitle has-text-dark">Network Devices</h1>
+						<h1 class="title has-text-dark">365</h1>
+						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
 					</div>
 				</div>
-			</section>
+				<div class="column is-3">
+					<div class="box">
+						<h1 class="subtitle has-text-dark">Number of Ports</h1>
+						<h1 class="title has-text-dark">365</h1>
+						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
+					</div>
+				</div>
+				<div class="column is-3">
+					<div class="box">
+						<h1 class="subtitle has-text-dark">Number of Ports</h1>
+						<h1 class="title has-text-dark">365</h1>
+						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
+					</div>
+				</div>
+				<div class="column is-3">
+					<div class="box">
+						<h1 class="subtitle has-text-dark">Number of Ports</h1>
+						<h1 class="title has-text-dark">365</h1>
+						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
+					</div>
+				</div>
+			</div>
+
 
 			<div class="graphSection rightSide">
 				<div class="columns">

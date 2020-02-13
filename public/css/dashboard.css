@@ -23,6 +23,7 @@ html{
 	margin: 0 auto;
 	margin-top: 2rem;
 	cursor: pointer;
+	margin:5px;
 }
 .rightSide{
 	height:51vh;
