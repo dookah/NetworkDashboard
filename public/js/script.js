@@ -16,15 +16,13 @@ var numOfDevicesChart = new Chart(numOfDevCtx, {
         datasets: [{
             //Line Background Transparent
             backgroundColor: 'rgb(255, 99, 132, 0)',
-            //Color of the Line
-            borderColor: '#ffff',
             //Date from left to right, should be length 7
             data: [0, 10, 5, 2, 20, 30, 45],
             pointRadius: 0,
             pointHoverRadius: 5,
             pointBackgroundColor: '#9f00ff',
-            lineTension: 0.35,
-            backgroundColor: '#7957d5'
+            lineTension: 0.35
+            
         }]
     },
 
@@ -33,6 +31,18 @@ var numOfDevicesChart = new Chart(numOfDevCtx, {
         // Disable the label 
         legend: {
             display: false
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    drawOnChartArea: false
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawOnChartArea: false
+                }
+            }]
         }
     }
 });
@@ -65,6 +75,18 @@ var deviceTypeChart = new Chart(deviceTypeCtx, {
         barPercentage: 0.3,
         legend: {
             display: false,
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    drawOnChartArea: false
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawOnChartArea: false
+                }
+            }]
         }
     }
 });
