@@ -1,16 +1,55 @@
 
+//Get the context of all the graphs on the page
+var numOfDevCtx = document.getElementById('throughputChart').getContext('2d');
+var sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+var deviceTypeCtx = document.getElementById('deviceChart').getContext('2d');
 
-//Assign the graph context to a variable so we can edit it
-var numOfDevCtx = document.getElementById('myChart').getContext('2d');
+
+var numOfDevicesChart = new Chart(sentimentCtx, {
+    // The type of chart we want to create
+    type: 'doughnut',
+    // The data for our dataset
+    data: {
+        //X Axis tags, Left to Right
+        labels: ['Happy', 'Unhappy'],
+        datasets: [{
+            //Line Background Transparent
+            //Date from left to right, should be length 7
+            data: [66, 33],
+            pointHoverRadius: 5,
+            pointBackgroundColor: '#9f00ff',
+            lineTension: 0.35,
+            borderColor: "#2f91e5",
+            borderWidth: 2
+
+
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+        // Disable the label 
+        legend: {
+            display: false
+        },
+
+    }
+});
+
+
+
+
+//Grab the current date
 var date = new Date();
+//Array for days of the week
 var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
 //Set the context to a Chart object
 var numOfDevicesChart = new Chart(numOfDevCtx, {
     // The type of chart we want to create
     type: 'line',
     // The data for our dataset
     data: {
-
         //X Axis tags, Left to Right
         labels: [days[date.getDay() - 7], days[date.getDay() - 6], days[date.getDay() - 5], days[date.getDay() - 4], days[date.getDay() - 3], days[date.getDay() - 2], 'Now'],
         datasets: [{
@@ -18,11 +57,13 @@ var numOfDevicesChart = new Chart(numOfDevCtx, {
             backgroundColor: 'rgb(255, 99, 132, 0)',
             //Date from left to right, should be length 7
             data: [0, 10, 5, 2, 20, 30, 45],
-            pointRadius: 0,
             pointHoverRadius: 5,
             pointBackgroundColor: '#9f00ff',
-            lineTension: 0.35
-            
+            lineTension: 0.35,
+            borderColor: "#2f91e5",
+            borderWidth: 4,
+            borderCapStyle: "round"
+
         }]
     },
 
@@ -47,8 +88,7 @@ var numOfDevicesChart = new Chart(numOfDevCtx, {
     }
 });
 
-//Assign the graph context to a variable so we can edit it
-var deviceTypeCtx = document.getElementById('myChart2').getContext('2d');
+
 //Set the context to a Chart object
 var deviceTypeChart = new Chart(deviceTypeCtx, {
     // The type of chart we want to create
@@ -58,11 +98,11 @@ var deviceTypeChart = new Chart(deviceTypeCtx, {
         labels: ['APs', 'Switches', 'Routers', 'Firewalls'],
         datasets: [{
             label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#18ca8e',
             borderColor: '#9f00ff',
             data: [37, 10, 5, 2],
             barPercentage: 0.3,
-            barThickness: 'flex',
+            barThickness: 30,
             barPercentage: 0.3
         }]
     },
@@ -71,7 +111,7 @@ var deviceTypeChart = new Chart(deviceTypeCtx, {
     options: {
         aspectRatio: 1,
         barPercentage: 0.3,
-        barThickness: 'flex',
+        barThickness: 30,
         barPercentage: 0.3,
         legend: {
             display: false,
@@ -80,7 +120,8 @@ var deviceTypeChart = new Chart(deviceTypeCtx, {
             xAxes: [{
                 gridLines: {
                     drawOnChartArea: false
-                }
+                },
+                barPercentage: 0.3
             }],
             yAxes: [{
                 gridLines: {
@@ -90,20 +131,3 @@ var deviceTypeChart = new Chart(deviceTypeCtx, {
         }
     }
 });
-function openModal(id) {
-    $('#' + id).before('<div id="' + id + '-placeholder"></div>').detach().appendTo('body').removeClass('hide');
-}
-function closeModal(id) {
-    $('#' + id).detach().prependTo(('#' + id + '-placeholder')).addClass('hide');
-}
-
-var config = {
-    apiKey: "AIzaSyD8szGZGGZsuruITbUe6VWS-vZMq492bKI",
-    authDomain: "dashboard-cisco.firebaseapp.com",
-    databaseURL: "https://dashboard-cisco.firebaseio.com/",
-    storageBucket: "bucket.appspot.com"
-};
-firebase.initializeApp(config);
-
-var database = firebase.database();
-
