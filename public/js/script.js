@@ -1,4 +1,11 @@
 
+let closeButton = document.getElementById('close').addEventListener('click', () => {
+    document.getElementById('modal').classList.remove('is-active');
+})
+
+let settingsButton = document.getElementById('settings').addEventListener('click', () => {
+    document.getElementById('modal').classList.add('is-active');
+})
 //Get the context of all the graphs on the page
 var numOfDevCtx = document.getElementById('throughputChart').getContext('2d');
 var sentimentCtx = document.getElementById('sentimentChart').getContext('2d');

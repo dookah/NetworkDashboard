@@ -26,7 +26,7 @@
 					<li><a href="http://localhost:8080/" style="rgb(99, 0, 169)" class="box"> <i
 								class="cui-icon icon icon-home_32"></i></a></li>
 					<br>
-					<li><a> <i class="cui-icon icon icon-settings_32"></i></a></li>
+					<li><a> <i id="settings" class="cui-icon icon icon-settings_32"></i></a></li>
 				</ul>
 			</aside>
 		</div>
@@ -128,16 +128,18 @@
 			</div>
 		</div>
 		</section>
-		<div class="modal is-active">
+		<div id='modal' class="modal">
 			<div class="modal-background"></div>
 			<div class="modal-card">
 
 				<section class="modal-card-body">
 					<div class="columns">
-						<div id="background" class="column">
+						<div id="background" class="column is-4">
 
 						</div>
+
 						<div id="settingsForm" class="column is-gapless">
+							<button id="close"><i class="cui-icon icon icon-cancel_14"></i></button>
 							<h1 class="title">Settings</h1>
 							<form>
 								<div class="field">

@@ -41,3 +41,39 @@ html{
 		padding-top: 60px;
 		padding-bottom: 60px;
 	}
+	#close{
+		position: absolute;
+		z-index: 1000;
+		top: -15px;
+		right: -15px;
+		width: 45px;
+		height: 45px;
+		overflow: visible !important;
+		border-radius: 50%;
+		background-color: #0a0a0a;
+		color: white;
+		border-style: none;
+		transition: width 0.3s, height 0.3s, top 0.3s, right 0.3s;
+	}
+	#close:hover{
+		top: -20px;
+		right: -20px;
+		width: 55px;
+		height: 55px;
+		cursor: pointer;
+	}
+	
+	.modal-card{
+		overflow: visible !important;
+	}
+	#settings:hover{
+		-webkit-animation: rotating 2.5s linear infinite;
+	}
+	@-webkit-keyframes rotating {
+		from{
+			-webkit-transform: rotate(0deg);
+		}
+		to{
+			-webkit-transform: rotate(360deg);
+		}
+	}
