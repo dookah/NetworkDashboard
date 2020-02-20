@@ -18,8 +18,15 @@ var numOfDevicesChart = new Chart(sentimentCtx, {
             data: [66, 33],
             pointHoverRadius: 5,
             pointBackgroundColor: '#9f00ff',
+            backgroundColor: [
+                '#18ca8e',
+                '#FF6961'
+            ],
+            borderColor: [
+                '#18ca8e',
+                '#FF6961'
+            ],
             lineTension: 0.35,
-            borderColor: "#2f91e5",
             borderWidth: 2
 
 
