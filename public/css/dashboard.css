@@ -28,3 +28,16 @@ html{
 .rightSide{
 	height:51vh;
 }
+#background{
+	background-image: url(../images/settingsBackground.jpg);
+	background-size:     cover;                    
+    background-repeat:   no-repeat;
+	background-position: center center;}
+	.modal-card-body{
+		padding: 0 !important;
+	}
+	#settingsForm{
+		padding: 30px;
+		padding-top: 60px;
+		padding-bottom: 60px;
+	}

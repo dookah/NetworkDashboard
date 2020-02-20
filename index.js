@@ -2,9 +2,11 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const compression = require('compression')
 const port = process.env.PORT || 8080;
 
 const app = express();
+app.use(compression())
 const router = express.Router();
 
 //Set up views so we can render pages
