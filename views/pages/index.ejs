@@ -26,7 +26,9 @@
 					<li><a href="http://localhost:8080/" style="rgb(99, 0, 169)" class="box"> <i
 								class="cui-icon icon icon-home_32"></i></a></li>
 					<br>
-					<li><a> <i id="settings" class="cui-icon icon icon-settings_32"></i></a></li>
+					<a>
+						<li> <i id="settings" class="cui-icon icon icon-settings_32"></i></li>
+					</a>
 				</ul>
 			</aside>
 		</div>
@@ -109,8 +111,9 @@
 					<div class="column is-2">
 						<div class="box">
 							<h1 class="subtitle">Visitor Sentiment</h1>
-							<canvas id="sentimentChart" width="150" height="170"></canvas>
+							<canvas id="sentimentChart" width="150" height="156"></canvas>
 							<h1 class="title has-text-centered" style="color: #18ca8e">Superb!</h1>
+							<hr>
 							<div class="columns ">
 								<div class="column is-5">
 									<h1 class="title has-text-right is-size-2">83%</h1>
@@ -119,6 +122,7 @@
 									<p class="is-size-6 has-text-weight-light"> of customers are happy entering</p>
 								</div>
 							</div>
+							<hr>
 							<p class="is-size-7 has-text-weight-light has-text-centered"> Powered by <strong>Cisco
 									Meraki</strong></p>
 						</div>
@@ -171,9 +175,16 @@
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js"
 			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-		<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-firestore.js"></script>
+
+		<!-- The core Firebase JS SDK is always required and must be listed first -->
+		<script src="https://www.gstatic.com/firebasejs/7.11.0/firebase.js"></script>
+		
+
 		<script src="public/js/script.js"></script>
+		
+		<script src="public/js/databaseConnector.js"></script>
+
+
 </body>
 
 </html>
