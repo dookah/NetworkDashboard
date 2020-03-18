@@ -14,7 +14,12 @@ firebase.initializeApp(firebaseConfig);
 // Get a reference to the database service
 var database = firebase.database();
 
-firebase.database().ref('/meraki').once('value').then(function(snapshot) {
-    //Prints meraki devices
-    console.log(snapshot.val().devices.count)
+//References Meraki Devices entry in Firebase
+var merakiDeviceInfo = firebase.database().ref('/meraki');
+//On Firebase updating call this fuction
+merakiDeviceInfo.on('value', function (snapshot) {
+
+    wacky = Object.keys(snapshot.val().devices.count).sort();
+    console.log(wacky)
+
 });
