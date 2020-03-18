@@ -50,14 +50,26 @@ var numOfDevicesChart = new Chart(sentimentCtx, {
     }
 });
 
+function updateGraphDates() {
+    //Get reference of current date
+    let date = new Date();
+    //Array of days
+    let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    //Index of current day
+    let todaysNum = date.getDay();
 
+    let adjustedDays = []
+    for (let i = 1; i < days.length; i++) {
+        if (todaysNum == 7) {
+            adjustedDays.push(days[todaysNum - 1])
+            todaysNum = 1
+        }
+        adjustedDays.push(days[todaysNum - 1])
+        todaysNum++
+    }
+}
 
-
-//Grab the current date
-var date = new Date();
-//Array for days of the week
-var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
+updateGraphDates();
 //Set the context to a Chart object
 var numOfDevicesChart = new Chart(numOfDevCtx, {
     // The type of chart we want to create
@@ -65,7 +77,7 @@ var numOfDevicesChart = new Chart(numOfDevCtx, {
     // The data for our dataset
     data: {
         //X Axis tags, Left to Right
-        labels: [days[date.getDay() - 7], days[date.getDay() - 6], days[date.getDay() - 5], days[date.getDay() - 4], days[date.getDay() - 3], days[date.getDay() - 2], 'Now'],
+        labels: [days[date.getDay() - 6], days[date.getDay() - 5], days[date.getDay() - 4], days[date.getDay() - 3], days[date.getDay() - 2], days[date.getDay() - 1], 'Today'],
         datasets: [{
             //Line Background Transparent
             backgroundColor: 'rgb(255, 99, 132, 0)',
