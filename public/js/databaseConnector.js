@@ -15,7 +15,7 @@ let networkInformation = {
         count : undefined,
         ms : undefined, //Switches
         mx : undefined, //Firewalls
-        mg : undefined, //
+        mg : undefined, //Code
         mr : undefined  //
     },
     dnac : {
