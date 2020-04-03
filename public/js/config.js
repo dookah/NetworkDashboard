@@ -1,4 +1,4 @@
-let config = {
+module.exports = {
     apiKey: "AIzaSyD8szGZGGZsuruITbUe6VWS-vZMq492bKI",
     authDomain: "dashboard-cisco.firebaseapp.com",
     databaseURL: "https://dashboard-cisco.firebaseio.com",
@@ -9,4 +9,3 @@ let config = {
     measurementId: "G-462T1ZCYCQ"
 };
 
-module.exports = config;

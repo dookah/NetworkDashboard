@@ -9,17 +9,20 @@ let config = {
     measurementId: "G-462T1ZCYCQ"
 };
 
-//hold the current network infrastructure information
+//Object to hold the current state of the network
 let networkInformation = {
     meraki : {
-        count : undefined,
-        ms : undefined, //Switches
-        mx : undefined, //Firewalls
-        mg : undefined, //Code
-        mr : undefined  //
+        totalCount : undefined,
+        msCount : undefined, //Switches
+        mxCount : undefined, //Firewalls
+        mgCount : undefined, //Cellular Gateway
+        mrCount : undefined  //Wireless
     },
     dnac : {
-
+        switchCount : undefined, //Switches
+        apCount : undefined,     //Access Points
+        routerCount : undefined,  //Routers
+        wlcCount : undefined     //wireless LAN controller
     }
 }
 

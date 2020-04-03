@@ -67,7 +67,16 @@ html{
 		overflow: visible !important;
 	}
 	#settings:hover{
+		animation: rotating 2.5s linear infinite;
 		-webkit-animation: rotating 2.5s linear infinite;
+	}
+	@keyframes rotating {
+		from{
+			-webkit-transform: rotate(0deg);
+		}
+		to{
+			-webkit-transform: rotate(360deg);
+		}
 	}
 	@-webkit-keyframes rotating {
 		from{
@@ -76,4 +85,7 @@ html{
 		to{
 			-webkit-transform: rotate(360deg);
 		}
+	}
+	.altCol{
+		background-color: #F5F6FA !important;
 	}
