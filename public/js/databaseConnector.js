@@ -12,26 +12,36 @@ let config = {
 //Object to hold the current state of the network
 let networkInformation = {
     meraki : {
-        totalCount : undefined,
         msCount : undefined, //Switches
         mxCount : undefined, //Firewalls
         mgCount : undefined, //Cellular Gateway
-        mrCount : undefined  //Wireless
+        mrCount : undefined, //Wireless
+        merakiCount : undefined
     },
     dnac : {
         switchCount : undefined, //Switches
         apCount : undefined,     //Access Points
         routerCount : undefined,  //Routers
-        wlcCount : undefined     //wireless LAN controller
+        wlcCount : undefined,  //wireless LAN controller
+        ciscoCount : undefined
+    },
+    devices : {
+        online : undefined,
+        offline : undefined, 
+        os : [undefined, undefined, undefined] //[Windows, Mac, Linux]
     }
 }
 
-console.log(networkInformation.meraki.count)
 // Initialize Firebase
 firebase.initializeApp(config);
 
 // Get a reference to the database service
 var database = firebase.database();
+
+
+//Holds the total device count for each category
+let totalMerakiDeviceCount = null;
+let totalDnaDeviceCount = null;
 
 //References Meraki Devices entry in Firebase
 var merakiDeviceInfo = firebase.database().ref('/meraki');
@@ -39,15 +49,28 @@ var dnacDeviceInfo = firebase.database().ref('/dnac');
 
 //On Firebase updating call this fuction
 merakiDeviceInfo.on('value', function (snapshot) {
-    let merakiSwitchCount = getLatestInfo(snapshot.val().networkDevices.ms);
-    let merakiAPCount = getLatestInfo(snapshot.val().networkDevices.mr);
-    let merakiFirewallCount = getLatestInfo(snapshot.val().networkDevices.mx);
-    let merakiCellularCount = getLatestInfo(snapshot.val().networkDevices.mg);
+    networkInformation.meraki.msCount = getLatestInfo(snapshot.val().networkDevices.ms);
+    networkInformation.meraki.mrCount = getLatestInfo(snapshot.val().networkDevices.mr);
+    networkInformation.meraki.mxCount = getLatestInfo(snapshot.val().networkDevices.mx);
+    networkInformation.meraki.mgCount = getLatestInfo(snapshot.val().networkDevices.mg);
+    // Add all the above fields
+    networkInformation.meraki.merakiCount = getLatestInfo(snapshot.val().networkDevices.ms) + getLatestInfo(snapshot.val().networkDevices.mr) + getLatestInfo(snapshot.val().networkDevices.mx) + getLatestInfo(snapshot.val().networkDevices.mg);
+    
+    //Grab the device info
+    networkInformation.devices.online = getLatestInfo(snapshot.val().networkClients.online);
+
+    
+    //call the render function
+    renderPage();
 });
 dnacDeviceInfo.on('value', function (snapshot) {
-    let ciscoAPCount = getLatestInfo(snapshot.val().networkDevices.aps);
-    let ciscoSwitchCount = getLatestInfo(snapshot.val().networkDevices.sw); 
-    let ciscoRouterCount = getLatestInfo(snapshot.val().networkDevices.routers);
+    networkInformation.dnac.apCount = getLatestInfo(snapshot.val().networkDevices.aps);
+    networkInformation.dnac.switchCount = getLatestInfo(snapshot.val().networkDevices.sw); 
+    networkInformation.dnac.routerCount = getLatestInfo(snapshot.val().networkDevices.routers);
+    networkInformation.dnac.wlcCount = getLatestInfo(snapshot.val().networkDevices.wlc);
+    // Add all the above fields
+    networkInformation.dnac.ciscoCount = getLatestInfo(snapshot.val().networkDevices.aps) + getLatestInfo(snapshot.val().networkDevices.sw) + getLatestInfo(snapshot.val().networkDevices.routers) + getLatestInfo(snapshot.val().networkDevices.wlc);
+    renderPage();
 });
 
 //Function which returns sorted keys of a JSON object passed in
@@ -65,3 +88,29 @@ function getLatestInfo(object){
     //returns the value of the newest datapoint
     return object[lastIndex];
 }
+
+//Function to update the page last updated
+function updatePageTimer(){
+
+}
+
+function renderPage(){
+    networkDevices.message = networkInformation.meraki.merakiCount + networkInformation.dnac.ciscoCount;
+    onlineDevices.message = networkInformation.devices.online;
+}
+
+
+//Vue component for the Network Devices
+var networkDevices = new Vue({
+    el: '#networkDevices',
+    data: {
+      message: "Loading"
+    }
+})
+
+var onlineDevices = new Vue({
+    el : '#onlineDevices',
+    data : {
+        message : "Loading"
+    }
+})

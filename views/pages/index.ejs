@@ -36,15 +36,13 @@
 		<!--Main content on the right -->
 		<div class="column altCol">
 			<!-- Section for Welcome message -->
-
 			<div class="columns graphSection" style="padding-top: 1.5rem;">
 				<div class="column">
 					<div class="box">
 						<div class="columns is-centered is-vcentered">
 							<div class="column">
-								<h1 class="title is-1 ">Welcome to <strong>BT</strong>.</h1>
-								<h2 class="subtitle ">Powered by <strong>Cisco</strong>
-									Infrastructure.
+								<h1 class="title is-1 ">Welcome to <strong class='btCol'>BT</strong>.</h1>
+								<h2 class="subtitle ">Powered by <strong class='ciscoPrimary'>Cisco</strong> Infrastructure. </h2>
 							</div>
 							<div class="column is-hidden-touch">
 								<figure class="image is-128x128 is-pulled-right">
@@ -63,20 +61,20 @@
 				<div class="column is-3">
 					<div class="box">
 						<h1 class="subtitle has-text-dark">Network Devices</h1>
-						<h1 class="title has-text-dark">365</h1>
+						<div id="networkDevices" class="title has-text-dark">{{ message }}</div>
 						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
 					</div>
 				</div>
 				<div class="column is-3">
 					<div class="box">
-						<h1 class="subtitle has-text-dark">Number of Ports</h1>
-						<h1 class="title has-text-dark">365</h1>
+						<h1 class="subtitle has-text-dark">Online Devices</h1>
+						<h1 id="onlineDevices" class="title has-text-dark">{{ message }}</h1>
 						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
 					</div>
 				</div>
 				<div class="column is-3">
 					<div class="box">
-						<h1 class="subtitle has-text-dark">Number of Ports</h1>
+						<h1 class="subtitle has-text-dark">Offline Devices</h1>
 						<h1 class="title has-text-dark">365</h1>
 						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
 					</div>
@@ -104,22 +102,22 @@
 						<div class="box">
 							<h1 class="subtitle">Total Throughput</h1>
 							<h1 class="title has-text-dark">+21% since yesterday</h1>
-							<canvas id="throughputChart" width="400" height="170"></canvas>
+							<canvas id="throughputChart" width="1" height="1"></canvas>
 						</div>
 					</div>
 
 					<div class="column is-2">
 						<div class="box">
 							<h1 class="subtitle">Visitor Sentiment</h1>
-							<canvas id="sentimentChart" width="150" height="156"></canvas>
+							<canvas id="sentimentChart" width="1" height="1"></canvas>
 							<h1 class="title has-text-centered" style="color: #18ca8e">Superb!</h1>
 							<hr>
-							<div class="columns ">
+							<div class="columns is-vcentered">
 								<div class="column is-5">
-									<h1 class="title has-text-right is-size-2">83%</h1>
+									<h1 class="title has-text-right is-size-3">83%</h1>
 								</div>
 								<div class="column">
-									<p class="is-size-6 has-text-weight-light"> of customers are happy entering</p>
+									<p class="is-size-6 has-text-weight-light">Of People Satisfied</p>
 								</div>
 							</div>
 							<hr>
@@ -145,24 +143,7 @@
 						<div id="settingsForm" class="column is-gapless">
 							<button id="close"><i class="cui-icon icon icon-cancel_14"></i></button>
 							<h1 class="title">Settings</h1>
-							<form>
-								<div class="field">
-									<label class="label">Meraki API Key</label>
-									<div class="control">
-										<input class="input" type="password" placeholder="API Key">
-									</div>
-									<BR>
-									<label class="label">Cisco DNA-C API Key</label>
-									<div class="control">
-										<input class="input" type="password" placeholder="API Key">
-									</div>
-									<BR>
-									<label class="label">Firebase API Key</label>
-									<div class="control">
-										<input class="input" type="password" placeholder="API Key">
-									</div>
-								</div>
-							</form>
+							<hr>
 						</div>
 
 					</div>
@@ -172,17 +153,22 @@
 
 			</div>
 		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js"
 			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 		<!-- The core Firebase JS SDK is always required and must be listed first -->
 		<script src="https://www.gstatic.com/firebasejs/7.11.0/firebase.js"></script>
+
+		
 		
 
 		<script src="public/js/script.js"></script>
 		
 		<script src="public/js/databaseConnector.js"></script>
+
+
 
 
 </body>
