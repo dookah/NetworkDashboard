@@ -59,23 +59,23 @@
 
 			<div class="columns graphSection">
 				<div class="column is-3">
-					<div class="box">
+					<div class="box" id="networkDevices">
 						<h1 class="subtitle has-text-dark">Network Devices</h1>
-						<div id="networkDevices" class="title has-text-dark">{{ message }}</div>
-						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
+						<div class="title has-text-dark">{{ message }}</div>
+						<h1><span class="has-text-success">{{ change }}</span> since last month</h1>
 					</div>
 				</div>
 				<div class="column is-3">
 					<div class="box">
 						<h1 class="subtitle has-text-dark">Online Devices</h1>
 						<h1 id="onlineDevices" class="title has-text-dark">{{ message }}</h1>
-						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
+						<h1>Updated : </h1>
 					</div>
 				</div>
 				<div class="column is-3">
 					<div class="box">
 						<h1 class="subtitle has-text-dark">Offline Devices</h1>
-						<h1 class="title has-text-dark">365</h1>
+						<h1 id="offlineDevices" class="title has-text-dark">{{ message }}</h1>
 						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
 					</div>
 				</div>
@@ -94,9 +94,17 @@
 					<div class="column is-3">
 						<div class="box">
 							<h1 class="subtitle">Device Breakdown</h1>
+							
+							
 							<canvas id="deviceChart" width="143" height="170"></canvas>
+							<hr>
+							<h1 class="subtitle">Key</h1>
+							<span class="tag is-primary is-medium">Switches</span>
+							<span class="tag is-primary is-medium">Routers</span>
+							<span class="tag is-primary is-medium">Access Points</span>
+							<span class="tag is-primary is-medium">WLCs</span>
 						</div>
-						</d>
+						
 					</div>
 					<div class="column is-7">
 						<div class="box">
@@ -163,10 +171,10 @@
 
 		
 		
-
+		<script src="public/js/databaseConnector.js"></script>
 		<script src="public/js/script.js"></script>
 		
-		<script src="public/js/databaseConnector.js"></script>
+		
 
 
 

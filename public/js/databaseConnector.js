@@ -11,24 +11,26 @@ let config = {
 
 //Object to hold the current state of the network
 let networkInformation = {
-    meraki : {
-        msCount : undefined, //Switches
-        mxCount : undefined, //Firewalls
-        mgCount : undefined, //Cellular Gateway
-        mrCount : undefined, //Wireless
-        merakiCount : undefined
-    },
-    dnac : {
-        switchCount : undefined, //Switches
-        apCount : undefined,     //Access Points
-        routerCount : undefined,  //Routers
-        wlcCount : undefined,  //wireless LAN controller
-        ciscoCount : undefined
-    },
-    devices : {
-        online : undefined,
-        offline : undefined, 
-        os : [undefined, undefined, undefined] //[Windows, Mac, Linux]
+    current: {
+        meraki: {
+            msCount: 0, //Switches
+            mxCount: 0, //Firewalls
+            mgCount: 0, //Cellular Gateway
+            mrCount: 0, //Wireless
+            merakiCount: 0
+        },
+        dnac: {
+            switchCount: 0, //Switches
+            apCount: 0, //Access Points
+            routerCount: 0, //Routers
+            wlcCount: 0, //wireless LAN controller
+            ciscoCount: 0
+        },
+        devices: {
+            online: 0,
+            offline: 0,
+            os: [0, 0, 0] //[Windows, Mac, Linux]
+        }
     }
 }
 
@@ -49,54 +51,77 @@ var dnacDeviceInfo = firebase.database().ref('/dnac');
 
 //On Firebase updating call this fuction
 merakiDeviceInfo.on('value', function (snapshot) {
-    networkInformation.meraki.msCount = getLatestInfo(snapshot.val().networkDevices.ms);
-    networkInformation.meraki.mrCount = getLatestInfo(snapshot.val().networkDevices.mr);
-    networkInformation.meraki.mxCount = getLatestInfo(snapshot.val().networkDevices.mx);
-    networkInformation.meraki.mgCount = getLatestInfo(snapshot.val().networkDevices.mg);
+    networkInformation.current.meraki.msCount = getLatestInfo(snapshot.val().networkDevices.ms);
+    networkInformation.current.meraki.mrCount = getLatestInfo(snapshot.val().networkDevices.mr);
+    networkInformation.current.meraki.mxCount = getLatestInfo(snapshot.val().networkDevices.mx);
+    networkInformation.current.meraki.mgCount = getLatestInfo(snapshot.val().networkDevices.mg);
     // Add all the above fields
-    networkInformation.meraki.merakiCount = getLatestInfo(snapshot.val().networkDevices.ms) + getLatestInfo(snapshot.val().networkDevices.mr) + getLatestInfo(snapshot.val().networkDevices.mx) + getLatestInfo(snapshot.val().networkDevices.mg);
-    
-    //Grab the device info
-    networkInformation.devices.online = getLatestInfo(snapshot.val().networkClients.online);
+    networkInformation.current.meraki.merakiCount = getLatestInfo(snapshot.val().networkDevices.ms) + getLatestInfo(snapshot.val().networkDevices.mr) + getLatestInfo(snapshot.val().networkDevices.mx) + getLatestInfo(snapshot.val().networkDevices.mg);
 
-    
+    //Grab the device info
+    networkInformation.current.devices.online = getLatestInfo(snapshot.val().networkClients.online);
+    networkInformation.current.devices.offline = getLatestInfo(snapshot.val().networkClients.offline);
+
+
     //call the render function
     renderPage();
 });
 dnacDeviceInfo.on('value', function (snapshot) {
-    networkInformation.dnac.apCount = getLatestInfo(snapshot.val().networkDevices.aps);
-    networkInformation.dnac.switchCount = getLatestInfo(snapshot.val().networkDevices.sw); 
-    networkInformation.dnac.routerCount = getLatestInfo(snapshot.val().networkDevices.routers);
-    networkInformation.dnac.wlcCount = getLatestInfo(snapshot.val().networkDevices.wlc);
+    networkInformation.current.dnac.apCount = getLatestInfo(snapshot.val().networkDevices.aps);
+    networkInformation.current.dnac.switchCount = getLatestInfo(snapshot.val().networkDevices.sw);
+    networkInformation.current.dnac.routerCount = getLatestInfo(snapshot.val().networkDevices.routers);
+    networkInformation.current.dnac.wlcCount = getLatestInfo(snapshot.val().networkDevices.wlc);
     // Add all the above fields
-    networkInformation.dnac.ciscoCount = getLatestInfo(snapshot.val().networkDevices.aps) + getLatestInfo(snapshot.val().networkDevices.sw) + getLatestInfo(snapshot.val().networkDevices.routers) + getLatestInfo(snapshot.val().networkDevices.wlc);
+    networkInformation.current.dnac.ciscoCount = getLatestInfo(snapshot.val().networkDevices.aps) + getLatestInfo(snapshot.val().networkDevices.sw) + getLatestInfo(snapshot.val().networkDevices.routers) + getLatestInfo(snapshot.val().networkDevices.wlc);
     renderPage();
 });
 
 //Function which returns sorted keys of a JSON object passed in
-function getSortedKeys(object){
+function getSortedKeys(object) {
     //returns a sorted array of dates, from oldest to newest
     return Object.keys(object).sort();
 }
 
 //Function gets value of newest value in object
-function getLatestInfo(object){
+function getLatestInfo(object) {
     //get an arr of all the keys in the object sorted
     let sortedKeys = getSortedKeys(object);
     //finds the newest datapoint in the object 
-    let lastIndex = sortedKeys[(sortedKeys.length)-1];
+    let lastIndex = sortedKeys[(sortedKeys.length) - 1];
     //returns the value of the newest datapoint
     return object[lastIndex];
 }
 
-//Function to update the page last updated
-function updatePageTimer(){
+function getDayBefore(object) {
 
+    let sortedKeys = getSortedKeys(object);
+    let lastIndex = sortedKeys[(sortedKeys.length) - 2];
+    return object[lastIndex];
 }
 
-function renderPage(){
-    networkDevices.message = networkInformation.meraki.merakiCount + networkInformation.dnac.ciscoCount;
-    onlineDevices.message = networkInformation.devices.online;
+function calculatePercentageChange(previous, current) {
+    //calculate the how much change has occured between the two numbers
+    let increase = current - previous;
+    //calculate the percentage increase/decrease of that change
+    let percentageIncrease = (increase / previous) * 100;
+    //return the percentageIncrease/Decrease
+    return percentageIncrease;
+}
+
+function renderPage() {
+    //networkDevices component render
+    networkDevices.message = networkInformation.current.meraki.merakiCount + networkInformation.current.dnac.ciscoCount;
+    //online component render
+    onlineDevices.message = networkInformation.current.devices.online;
+    offlineDevices.message = networkInformation.current.devices.offline;
+
+
+
+    myDeviceChart.data.datasets[0].data[0] = networkInformation.current.meraki.msCount + networkInformation.current.dnac.switchCount;
+    myDeviceChart.data.datasets[0].data[1] = networkInformation.current.meraki.mxCount + networkInformation.current.dnac.routerCount;
+    myDeviceChart.data.datasets[0].data[2] = networkInformation.current.meraki.mrCount + networkInformation.current.dnac.apCount;
+    myDeviceChart.data.datasets[0].data[3] = networkInformation.current.dnac.wlcCount;
+    myDeviceChart.update();
 }
 
 
@@ -104,13 +129,60 @@ function renderPage(){
 var networkDevices = new Vue({
     el: '#networkDevices',
     data: {
-      message: "Loading"
+        message: "Loading",
+        change: "+33%"
     }
 })
 
 var onlineDevices = new Vue({
-    el : '#onlineDevices',
-    data : {
-        message : "Loading"
+    el: '#onlineDevices',
+    data: {
+        message: "Loading"
     }
 })
+
+var offlineDevices = new Vue({
+    el: '#offlineDevices',
+    data: {
+        message: "Loading"
+    }
+})
+
+var deviceChartContext = document.getElementById('deviceChart').getContext('2d');
+var myDeviceChart = new Chart(deviceChartContext, {
+
+    type: 'horizontalBar',
+    data: {
+        labels: ["", "", "", ""],
+        datasets: [{
+            label: "Population (millions)",
+            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+            data: [1, 1, 1, 1]
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        legend: {
+            display: false
+        },
+
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem) {
+                    return tooltipItem.yLabel;
+                }
+            }
+        }
+    }
+});
