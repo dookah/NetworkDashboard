@@ -62,7 +62,12 @@ merakiDeviceInfo.on('value', function (snapshot) {
     networkInformation.current.devices.online = getLatestInfo(snapshot.val().networkClients.online);
     networkInformation.current.devices.offline = getLatestInfo(snapshot.val().networkClients.offline);
     networkInformation.current.devices.os = [getLatestInfo(snapshot.val().networkClients.OS.Windows), getLatestInfo(snapshot.val().networkClients.OS.Mac), getLatestInfo(snapshot.val().networkClients.OS.Linux)]
+    
+    myLineChart.data.datasets[0].data = getLatestFiveEntries(snapshot.val().networkClients.OS.Windows)[0].reverse()
+    myLineChart.data.datasets[1].data = getLatestFiveEntries(snapshot.val().networkClients.OS.Mac)[0].reverse()
+    myLineChart.data.datasets[2].data = getLatestFiveEntries(snapshot.val().networkClients.OS.Linux)[0].reverse()
 
+    myLineChart.data.labels = getLatestFiveEntries(snapshot.val().networkClients.OS.Windows)[1].reverse()
     //call the render function
     renderPage();
 });
@@ -91,6 +96,30 @@ function getLatestInfo(object) {
 
     // Index 0 : Num of Devices, Index 1: Timestamp of when that was taken
     return [object[lastIndex], lastIndex];
+}
+
+
+//Function gets value of newest value in object
+function getLatestFiveEntries(object) {
+    //get an arr of all the keys in the object sorted
+    let sortedKeys = getSortedKeys(object);
+
+    let listOfData = [[],[]]
+    listOfData[0].push(object[sortedKeys[(sortedKeys.length) - 1]]);
+    listOfData[0].push(object[sortedKeys[(sortedKeys.length) - 2]]);
+    listOfData[0].push(object[sortedKeys[(sortedKeys.length) - 3]]);
+    listOfData[0].push(object[sortedKeys[(sortedKeys.length) - 4]]);
+    listOfData[0].push(object[sortedKeys[(sortedKeys.length) - 5]]);
+
+    listOfData[1].push(formatDate(sortedKeys[(sortedKeys.length) - 1]));
+    listOfData[1].push(formatDate(sortedKeys[(sortedKeys.length) - 2]));
+    listOfData[1].push(formatDate(sortedKeys[(sortedKeys.length) - 3]));
+    listOfData[1].push(formatDate(sortedKeys[(sortedKeys.length) - 4]));
+    listOfData[1].push(formatDate(sortedKeys[(sortedKeys.length) - 5]));
+
+    console.log(listOfData)
+    // Index 0 : Num of Devices, Index 1: Timestamp of when that was taken
+    return listOfData;
 }
 
 function getDayBefore(object) {
@@ -136,11 +165,7 @@ function renderPage() {
 
     //---- Update OS Chart ----
     //Windows
-    myLineChart.data.datasets[0].data = [10,11,13,4,2]
-    //Mac OS
-    myLineChart.data.datasets[1].data = [10,11,13,4,2]
-    //Linux
-    myLineChart.data.datasets[2].data = [10,11,13,4,2]
+
 
     myLineChart.update();
 
@@ -213,22 +238,26 @@ var myDeviceChart = new Chart(deviceChartContext, {
     data: {
         labels: ["", "", "", ""],
         datasets: [{
+            barThickness: 400,
             backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
             data: [1, 1, 1, 1]
         }]
     },
     options: {
         responsive : true,
+        
         scales: {
             yAxes: [{
                 ticks: {
                     beginAtZero: true
-                }
+                },
+                barThickness: 'flex'
             }],
             xAxes: [{
                 ticks: {
                     beginAtZero: true
-                }
+                },
+                barThickness: 10
             }]
         },
         legend: {
@@ -246,6 +275,11 @@ var myDeviceChart = new Chart(deviceChartContext, {
 });
 
 function formatDate(dateString){
+
+    if (dateString === undefined){
+        return;
+    }
+
     let SplitString = dateString.split('')
     let year = SplitString[0] + SplitString[1] + SplitString[2] + SplitString[3]
     let month = SplitString[4] + SplitString[5]
@@ -253,7 +287,7 @@ function formatDate(dateString){
     let hour = SplitString[8] + SplitString[9]
     let minute = SplitString[10] + SplitString[11]
 
-    return ('Updated: ' + hour + ':' + minute  + ' '+ day + '/' + month )
+    return (hour + ':' + minute  + ' '+ day + '/' + month )
 }
 
 
@@ -261,7 +295,7 @@ let osTrendsContext = document.getElementById('osTrends').getContext('2d');
 var myLineChart = new Chart(osTrendsContext, {
     type: 'line',
     data: {
-        labels: ["", "", "", ""],
+        labels: [],
         datasets: [
             {fill: false,
              strokeColor: "rgba(220,220,220,1)",

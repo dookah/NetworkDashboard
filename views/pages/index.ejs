@@ -92,14 +92,18 @@
 			<div class="graphSection rightSide">
 				<div class="columns">
 					<div class="column is-3">
-						<div class='box'>
-							<h1 class='subtitle'> Device Breakdown</h1>
-							
+						<div class='box bottomBar'>
+							<h1 class='subtitle has-text-centered'> Device Breakdown</h1>
+							<br>
 							<div>
-								<canvas id="deviceChart"></canvas>
+								<canvas id="deviceChart" height="250"></canvas>
 							</div>
+
+							<p class="subtitle has-text-centered is-6">Number of Devices</p>
+							<hr>
+							<p class="subtitle has-text-centered is-6">Key</p>
 							
-							<div class="tags">
+							<div class="tags is-centered">
 								<span class="tag is-medium has-text-white" style="background-color: #3e95cd">Routers</span>
 								<span class="tag is-medium has-text-white" style="background-color: #8e5ea2">Switches</span>
 								<span class="tag is-medium has-text-white" style="background-color: #3cba9f">APs</span>
@@ -109,27 +113,29 @@
 
 					</div>
 					<div class="column is-7">
-						<div class='box'>
-							<h1 class='subtitle'> Operating Systems</h1>
-							<div>
+						<div class='box bottomBar'>
+							<h1 class='subtitle has-text-centered'> Operating Systems</h1>
+							<br>
+							<div >
 								<canvas id="osTrends"></canvas>
 							</div>
 						</div>
 					</div>
 
 					<div class="column is-2">
-						<div class='box'>
-							<h1 class='subtitle'> Operating Systems</h1>
+						<div class='box bottomBar'>
+							<h1 class='subtitle has-text-centered'> Satisfaction</h1>
+							<br>
 							<div>
-								<canvas id="sentimentChart"></canvas>
+								<canvas id="sentimentChart" height="250"></canvas>
 							</div>
 							<hr>
 							<div class="columns is-vcentered">
 								<div class="column is-5">
-									<h1 class="title has-text-right is-size-3 is-size-6-touch">83%</h1>
+									<h1 class="title has-text-right is-size-2 is-size-6-touch">83%</h1>
 								</div>
 								<div class="column">
-									<p class="is-size-6 has-text-weight-light is-size-6-touch">Of People Satisfied</p>
+									<p class="is-size-6 has-text-weight-light  is-size-6-touch">Of People Happy Passing Camera</p>
 								</div>
 							</div>
 							<hr>
