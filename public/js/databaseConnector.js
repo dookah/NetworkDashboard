@@ -56,12 +56,12 @@ merakiDeviceInfo.on('value', function (snapshot) {
     networkInformation.current.meraki.mxCount = getLatestInfo(snapshot.val().networkDevices.mx);
     networkInformation.current.meraki.mgCount = getLatestInfo(snapshot.val().networkDevices.mg);
     // Add all the above fields
-    networkInformation.current.meraki.merakiCount = getLatestInfo(snapshot.val().networkDevices.ms) + getLatestInfo(snapshot.val().networkDevices.mr) + getLatestInfo(snapshot.val().networkDevices.mx) + getLatestInfo(snapshot.val().networkDevices.mg);
+    networkInformation.current.meraki.merakiCount = getLatestInfo(snapshot.val().networkDevices.ms)[0] + getLatestInfo(snapshot.val().networkDevices.mr)[0] + getLatestInfo(snapshot.val().networkDevices.mx)[0] + getLatestInfo(snapshot.val().networkDevices.mg)[0];
 
     //Grab the device info
     networkInformation.current.devices.online = getLatestInfo(snapshot.val().networkClients.online);
     networkInformation.current.devices.offline = getLatestInfo(snapshot.val().networkClients.offline);
-
+    networkInformation.current.devices.os = [getLatestInfo(snapshot.val().networkClients.OS.Windows), getLatestInfo(snapshot.val().networkClients.OS.Mac), getLatestInfo(snapshot.val().networkClients.OS.Linux)]
 
     //call the render function
     renderPage();
@@ -72,7 +72,7 @@ dnacDeviceInfo.on('value', function (snapshot) {
     networkInformation.current.dnac.routerCount = getLatestInfo(snapshot.val().networkDevices.routers);
     networkInformation.current.dnac.wlcCount = getLatestInfo(snapshot.val().networkDevices.wlc);
     // Add all the above fields
-    networkInformation.current.dnac.ciscoCount = getLatestInfo(snapshot.val().networkDevices.aps) + getLatestInfo(snapshot.val().networkDevices.sw) + getLatestInfo(snapshot.val().networkDevices.routers) + getLatestInfo(snapshot.val().networkDevices.wlc);
+    networkInformation.current.dnac.ciscoCount = getLatestInfo(snapshot.val().networkDevices.aps)[0] + getLatestInfo(snapshot.val().networkDevices.sw)[0] + getLatestInfo(snapshot.val().networkDevices.routers)[0] + getLatestInfo(snapshot.val().networkDevices.wlc)[0];
     renderPage();
 });
 
@@ -88,8 +88,9 @@ function getLatestInfo(object) {
     let sortedKeys = getSortedKeys(object);
     //finds the newest datapoint in the object 
     let lastIndex = sortedKeys[(sortedKeys.length) - 1];
-    //returns the value of the newest datapoint
-    return object[lastIndex];
+
+    // Index 0 : Num of Devices, Index 1: Timestamp of when that was taken
+    return [object[lastIndex], lastIndex];
 }
 
 function getDayBefore(object) {
@@ -111,17 +112,64 @@ function calculatePercentageChange(previous, current) {
 function renderPage() {
     //networkDevices component render
     networkDevices.message = networkInformation.current.meraki.merakiCount + networkInformation.current.dnac.ciscoCount;
-    //online component render
-    onlineDevices.message = networkInformation.current.devices.online;
-    offlineDevices.message = networkInformation.current.devices.offline;
+    
 
+    //Online Component Render
+    onlineDevices.message = networkInformation.current.devices.online[0];
+    onlineDevices.date = formatDate(networkInformation.current.devices.online[1]);
 
+    //Offline Component Render
+    offlineDevices.message = networkInformation.current.devices.offline[0];
+    offlineDevices.date = formatDate(networkInformation.current.devices.offline[1]);
 
-    myDeviceChart.data.datasets[0].data[0] = networkInformation.current.meraki.msCount + networkInformation.current.dnac.switchCount;
-    myDeviceChart.data.datasets[0].data[1] = networkInformation.current.meraki.mxCount + networkInformation.current.dnac.routerCount;
-    myDeviceChart.data.datasets[0].data[2] = networkInformation.current.meraki.mrCount + networkInformation.current.dnac.apCount;
-    myDeviceChart.data.datasets[0].data[3] = networkInformation.current.dnac.wlcCount;
+    //Popular OS Component Render
+    popularOS.message = findPopularOS(networkInformation.current.devices.os);
+    popularOS.date = formatDate(networkInformation.current.devices.os[0][1])
+
+    //--------  Update Charts on page -------
+    //---- Update Device Histogram ------
+    myDeviceChart.data.datasets[0].data[0] = networkInformation.current.meraki.msCount[0] + networkInformation.current.dnac.switchCount[0];
+    myDeviceChart.data.datasets[0].data[1] = networkInformation.current.meraki.mxCount[0] + networkInformation.current.dnac.routerCount[0];
+    myDeviceChart.data.datasets[0].data[2] = networkInformation.current.meraki.mrCount[0] + networkInformation.current.dnac.apCount[0];
+    myDeviceChart.data.datasets[0].data[3] = networkInformation.current.dnac.wlcCount[0];  
     myDeviceChart.update();
+
+    //---- Update OS Chart ----
+    //Windows
+    myLineChart.data.datasets[0].data = [10,11,13,4,2]
+    //Mac OS
+    myLineChart.data.datasets[1].data = [10,11,13,4,2]
+    //Linux
+    myLineChart.data.datasets[2].data = [10,11,13,4,2]
+
+    myLineChart.update();
+
+    //---- Update Sentimeter ---- 
+}
+
+function findPopularOS(arr){
+    //holds the most popular os
+    let currentOS = ""
+    //max amount of deices
+    let currentCounter = 0;
+    //Loop through the array
+    for(let i = 0; i < arr.length; i++){
+        //If the current device amount is higher than previous found
+        if (arr[i][0] > currentCounter){
+            //update the highest amount
+            currentCounter = arr[i][0]
+            //set the most popular os depending on index
+            if(i == 0){
+                currentOS = 'Windows'
+            } if (i == 1){
+                currentOS = 'Mac'
+            } if (i == 2){
+                currentOS = 'Linux'
+            }
+        }
+    }
+
+    return currentOS;
 }
 
 
@@ -130,21 +178,31 @@ var networkDevices = new Vue({
     el: '#networkDevices',
     data: {
         message: "Loading",
-        change: "+33%"
+        date: "Last Updated: "
     }
 })
 
 var onlineDevices = new Vue({
     el: '#onlineDevices',
     data: {
-        message: "Loading"
+        message: "Loading",
+        date: "Loading"
     }
 })
 
 var offlineDevices = new Vue({
     el: '#offlineDevices',
     data: {
-        message: "Loading"
+        message: "Loading",
+        date: "Loading"
+    }
+})
+
+var popularOS = new Vue({
+    el: '#popularOS',
+    data: {
+        message : 'Loading',
+        date: 'Loading'
     }
 })
 
@@ -155,12 +213,12 @@ var myDeviceChart = new Chart(deviceChartContext, {
     data: {
         labels: ["", "", "", ""],
         datasets: [{
-            label: "Population (millions)",
             backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
             data: [1, 1, 1, 1]
         }]
     },
     options: {
+        responsive : true,
         scales: {
             yAxes: [{
                 ticks: {
@@ -183,6 +241,46 @@ var myDeviceChart = new Chart(deviceChartContext, {
                     return tooltipItem.yLabel;
                 }
             }
+        }
+    }
+});
+
+function formatDate(dateString){
+    let SplitString = dateString.split('')
+    let year = SplitString[0] + SplitString[1] + SplitString[2] + SplitString[3]
+    let month = SplitString[4] + SplitString[5]
+    let day = SplitString[6] + SplitString[7]
+    let hour = SplitString[8] + SplitString[9]
+    let minute = SplitString[10] + SplitString[11]
+
+    return ('Updated: ' + hour + ':' + minute  + ' '+ day + '/' + month )
+}
+
+
+let osTrendsContext = document.getElementById('osTrends').getContext('2d');
+var myLineChart = new Chart(osTrendsContext, {
+    type: 'line',
+    data: {
+        labels: ["", "", "", ""],
+        datasets: [
+            {fill: false,
+             strokeColor: "rgba(220,220,220,1)",
+             data: [1,2,3,4,5]
+            },
+            {fill: false,
+             strokeColor: "rgba(151,187,205,1)",
+             data: [5,4,3,2,1]
+            },
+            {fill: false,
+            borderColor : '#3cba9f',
+             data: [1,4,3,3,4]
+            }
+        ]
+    },
+    options: {
+        responsive : true,
+        legend: {
+            display: false
         }
     }
 });

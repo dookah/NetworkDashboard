@@ -30,7 +30,7 @@ html {
 }
 
 .rightSide {
-	height: 51vh;
+	height: 100vh;
 }
 
 #background {
@@ -108,4 +108,12 @@ html {
 
 .btCol {
 	color: rgb(89, 26, 163) !important;
+}
+.bottomBar{
+	height: 55vh;
+	width: auto;
+	overflow: hidden;
+}
+.topBar{
+	height: 1vh !important;
 }

@@ -59,31 +59,31 @@
 
 			<div class="columns graphSection">
 				<div class="column is-3">
-					<div class="box" id="networkDevices">
+					<div class="box" class="topBar" id="networkDevices">
 						<h1 class="subtitle has-text-dark">Network Devices</h1>
 						<div class="title has-text-dark">{{ message }}</div>
 						<h1><span class="has-text-success">{{ change }}</span> since last month</h1>
 					</div>
 				</div>
 				<div class="column is-3">
-					<div class="box">
+					<div class="box" class="topBar" id="onlineDevices">
 						<h1 class="subtitle has-text-dark">Online Devices</h1>
-						<h1 id="onlineDevices" class="title has-text-dark">{{ message }}</h1>
-						<h1>Updated : </h1>
+						<h1 class="title has-text-dark">{{ message }}</h1>
+						<h1>{{ date }}</h1>
 					</div>
 				</div>
 				<div class="column is-3">
-					<div class="box">
+					<div class="box" class="topBar" id="offlineDevices" >
 						<h1 class="subtitle has-text-dark">Offline Devices</h1>
-						<h1 id="offlineDevices" class="title has-text-dark">{{ message }}</h1>
-						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
+						<h1 class="title has-text-dark">{{ message }}</h1>
+						<h1>{{ date }}</h1>
 					</div>
 				</div>
 				<div class="column is-3">
-					<div class="box">
-						<h1 class="subtitle has-text-dark">Number of Ports</h1>
-						<h1 class="title has-text-dark">365</h1>
-						<h1><span class="has-text-success">+3.46%</span> since last month</h1>
+					<div class="box" class="topBar" id="popularOS">
+						<h1 class="subtitle has-text-dark">Most Popular OS</h1>
+						<h1 class="title has-text-dark"> {{ message }}</h1>
+						<h1>{{ date }}</h1>
 					</div>
 				</div>
 			</div>
@@ -92,40 +92,37 @@
 			<div class="graphSection rightSide">
 				<div class="columns">
 					<div class="column is-3">
-						<div class="box">
+						<div class="box bottomBar">
 							<h1 class="subtitle">Device Breakdown</h1>
-							
-							
-							<canvas id="deviceChart" width="143" height="170"></canvas>
-							<hr>
-							<h1 class="subtitle">Key</h1>
-							<span class="tag is-primary is-medium">Switches</span>
-							<span class="tag is-primary is-medium">Routers</span>
-							<span class="tag is-primary is-medium">Access Points</span>
-							<span class="tag is-primary is-medium">WLCs</span>
+							<canvas id="deviceChart" height="380"></canvas>
+							<div class="tags">
+								<span class="tag has-text-white" style="background-color: #3e95cd">Routers</span>
+								<span class="tag has-text-white" style="background-color: #8e5ea2">Switches</span>
+								<span class="tag has-text-white" style="background-color: #3cba9f">APs</span>
+								<span class="tag" style="background-color: #e8c3b9">WLC</span>
+							  </div>
 						</div>
 						
 					</div>
 					<div class="column is-7">
-						<div class="box">
-							<h1 class="subtitle">Total Throughput</h1>
-							<h1 class="title has-text-dark">+21% since yesterday</h1>
-							<canvas id="throughputChart" width="1" height="1"></canvas>
+						<div class="box bottomBar">
+							<h1 class="subtitle">Operating System Trends</h1>
+							<canvas id="osTrends"></canvas>
 						</div>
 					</div>
 
 					<div class="column is-2">
-						<div class="box">
-							<h1 class="subtitle">Visitor Sentiment</h1>
-							<canvas id="sentimentChart" width="1" height="1"></canvas>
-							<h1 class="title has-text-centered" style="color: #18ca8e">Superb!</h1>
+						<div class="box bottomBar">
+							<h1 class="subtitle is-size-6-touch">Visitor Sentiment</h1>
+							<canvas id="sentimentChart" width="10" height="10"></canvas>
+							<h1 class="title has-text-centered is-size-6-touch" style="color: #18ca8e">Superb!</h1>
 							<hr>
 							<div class="columns is-vcentered">
 								<div class="column is-5">
-									<h1 class="title has-text-right is-size-3">83%</h1>
+									<h1 class="title has-text-right is-size-3 is-size-6-touch">83%</h1>
 								</div>
 								<div class="column">
-									<p class="is-size-6 has-text-weight-light">Of People Satisfied</p>
+									<p class="is-size-6 has-text-weight-light is-size-6-touch">Of People Satisfied</p>
 								</div>
 							</div>
 							<hr>
@@ -151,7 +148,34 @@
 						<div id="settingsForm" class="column is-gapless">
 							<button id="close"><i class="cui-icon icon icon-cancel_14"></i></button>
 							<h1 class="title">Settings</h1>
-							<hr>
+							<h1 class="subtitle">General</h1>
+							Meraki
+							<div class="control">
+								<label class="radio">
+								  <input type="radio" name="answer">
+								  On
+								</label>
+								<label class="radio">
+								  <input type="radio" name="answer">
+								  Off
+								</label>
+							  </div>
+
+							  DNA Center
+							<div class="control">
+								<label class="radio">
+								  <input type="radio" name="answer">
+								  On
+								</label>
+								<label class="radio">
+								  <input type="radio" name="answer">
+								  Off
+								</label>
+							  </div>
+							<h1 class="subtitle">Top Row</h1>
+							
+							<h1 class="subtitle">Bottom Row</h1>
+							
 						</div>
 
 					</div>
