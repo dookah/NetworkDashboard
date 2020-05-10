@@ -9,6 +9,7 @@ let config = {
     measurementId: "G-462T1ZCYCQ"
 };
 
+
 //Object to hold the current state of the network
 let networkInformation = {
     current: {
@@ -33,6 +34,7 @@ let networkInformation = {
         }
     }
 }
+
 
 // Initialize Firebase
 firebase.initializeApp(config);
@@ -81,6 +83,7 @@ dnacDeviceInfo.on('value', function (snapshot) {
     renderPage();
 });
 
+
 //Function which returns sorted keys of a JSON object passed in
 function getSortedKeys(object) {
     //returns a sorted array of dates, from oldest to newest
@@ -97,6 +100,7 @@ function getLatestInfo(object) {
     // Index 0 : Num of Devices, Index 1: Timestamp of when that was taken
     return [object[lastIndex], lastIndex];
 }
+
 
 
 //Function gets value of newest value in object
@@ -172,6 +176,8 @@ function renderPage() {
     //---- Update Sentimeter ---- 
 }
 
+
+
 function findPopularOS(arr){
     //holds the most popular os
     let currentOS = ""
@@ -231,6 +237,7 @@ var popularOS = new Vue({
     }
 })
 
+
 var deviceChartContext = document.getElementById('deviceChart').getContext('2d');
 var myDeviceChart = new Chart(deviceChartContext, {
 
@@ -244,8 +251,7 @@ var myDeviceChart = new Chart(deviceChartContext, {
         }]
     },
     options: {
-        responsive : true,
-        
+        responsive : false,
         scales: {
             yAxes: [{
                 ticks: {
@@ -273,6 +279,7 @@ var myDeviceChart = new Chart(deviceChartContext, {
         }
     }
 });
+
 
 function formatDate(dateString){
 
@@ -312,9 +319,9 @@ var myLineChart = new Chart(osTrendsContext, {
         ]
     },
     options: {
-        responsive : true,
         legend: {
             display: false
         }
     }
 });
+
