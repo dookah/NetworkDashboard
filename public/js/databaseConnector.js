@@ -1,3 +1,33 @@
+let dnaToggle = document.getElementById('dnacToggle')
+let merakiToggle = document.getElementById('merakiToggle')
+
+
+function resetNetworkInformation(){
+    networkInformation = {
+        current: {
+            meraki: {
+                msCount: [0,0], //Switches
+                mxCount: [0,0], //Firewalls
+                mgCount: [0,0], //Cellular Gateway
+                mrCount: [0,0], //Wireless
+                merakiCount: 0
+            },
+            dnac: {
+                switchCount: [0,0], //Switches
+                apCount: [0,0], //Access Points
+                routerCount: [0,0], //Routers
+                wlcCount: [0,0], //wireless LAN controller
+                ciscoCount: 0
+            },
+            devices: {
+                online: 0,
+                offline: 0,
+                os: [0, 0, 0] //[Windows, Mac, Linux]
+            }
+        }
+    };
+    renderPage();
+}
 // ------------------- Firebase Config --------------------
 let config = {
     apiKey: "AIzaSyD8szGZGGZsuruITbUe6VWS-vZMq492bKI",
@@ -14,7 +44,7 @@ let config = {
 let networkInformation = {
     current: {
         meraki: {
-            msCount: 0, //Switches
+            msCount: [0,0], //Switches
             mxCount: 0, //Firewalls
             mgCount: 0, //Cellular Gateway
             mrCount: 0, //Wireless
@@ -45,29 +75,35 @@ var merakiDeviceInfo = firebase.database().ref('/meraki');
 var dnacDeviceInfo = firebase.database().ref('/dnac');
 
 //On Firebase updating call this fuction
-merakiDeviceInfo.on('value', function (snapshot) {
-    networkInformation.current.meraki.msCount = getLatestInfo(snapshot.val().networkDevices.ms);
-    networkInformation.current.meraki.mrCount = getLatestInfo(snapshot.val().networkDevices.mr);
-    networkInformation.current.meraki.mxCount = getLatestInfo(snapshot.val().networkDevices.mx);
-    networkInformation.current.meraki.mgCount = getLatestInfo(snapshot.val().networkDevices.mg);
-    // Add all the above fields
-    networkInformation.current.meraki.merakiCount = getLatestInfo(snapshot.val().networkDevices.ms)[0] + getLatestInfo(snapshot.val().networkDevices.mr)[0] + getLatestInfo(snapshot.val().networkDevices.mx)[0] + getLatestInfo(snapshot.val().networkDevices.mg)[0];
 
-    //Grab the device info
-    networkInformation.current.devices.online = getLatestInfo(snapshot.val().networkClients.online);
-    networkInformation.current.devices.offline = getLatestInfo(snapshot.val().networkClients.offline);
-    networkInformation.current.devices.os = [getLatestInfo(snapshot.val().networkClients.OS.Windows), getLatestInfo(snapshot.val().networkClients.OS.Mac), getLatestInfo(snapshot.val().networkClients.OS.Linux)]
-    
-    myLineChart.data.datasets[0].data = getLatestFiveEntries(snapshot.val().networkClients.OS.Windows)[0].reverse()
-    myLineChart.data.datasets[1].data = getLatestFiveEntries(snapshot.val().networkClients.OS.Mac)[0].reverse()
-    myLineChart.data.datasets[2].data = getLatestFiveEntries(snapshot.val().networkClients.OS.Linux)[0].reverse()
+    merakiDeviceInfo.on('value', function (snapshot) {
+        if (merakiToggle.checked == true) {
+            
+        networkInformation.current.meraki.msCount = getLatestInfo(snapshot.val().networkDevices.ms);
+        networkInformation.current.meraki.mrCount = getLatestInfo(snapshot.val().networkDevices.mr);
+        networkInformation.current.meraki.mxCount = getLatestInfo(snapshot.val().networkDevices.mx);
+        networkInformation.current.meraki.mgCount = getLatestInfo(snapshot.val().networkDevices.mg);
+        // Add all the above fields
+        networkInformation.current.meraki.merakiCount = getLatestInfo(snapshot.val().networkDevices.ms)[0] + getLatestInfo(snapshot.val().networkDevices.mr)[0] + getLatestInfo(snapshot.val().networkDevices.mx)[0] + getLatestInfo(snapshot.val().networkDevices.mg)[0];
 
-    myLineChart.data.labels = getLatestFiveEntries(snapshot.val().networkClients.OS.Windows)[1].reverse()
-    //call the render function
-    renderPage();
-});
+        //Grab the device info
+        networkInformation.current.devices.online = getLatestInfo(snapshot.val().networkClients.online);
+        networkInformation.current.devices.offline = getLatestInfo(snapshot.val().networkClients.offline);
+        networkInformation.current.devices.os = [getLatestInfo(snapshot.val().networkClients.OS.Windows), getLatestInfo(snapshot.val().networkClients.OS.Mac), getLatestInfo(snapshot.val().networkClients.OS.Linux)]
+
+        myLineChart.data.datasets[0].data = getLatestFiveEntries(snapshot.val().networkClients.OS.Windows)[0].reverse()
+        myLineChart.data.datasets[1].data = getLatestFiveEntries(snapshot.val().networkClients.OS.Mac)[0].reverse()
+        myLineChart.data.datasets[2].data = getLatestFiveEntries(snapshot.val().networkClients.OS.Linux)[0].reverse()
+
+        myLineChart.data.labels = getLatestFiveEntries(snapshot.val().networkClients.OS.Windows)[1].reverse()
+        //call the render function
+        renderPage();
+        }
+    });
+
 //On DNAC updating call this function
 dnacDeviceInfo.on('value', function (snapshot) {
+    if (dnaToggle.checked == true) {
     networkInformation.current.dnac.apCount = getLatestInfo(snapshot.val().networkDevices.aps);
     networkInformation.current.dnac.switchCount = getLatestInfo(snapshot.val().networkDevices.sw);
     networkInformation.current.dnac.routerCount = getLatestInfo(snapshot.val().networkDevices.routers);
@@ -75,6 +111,7 @@ dnacDeviceInfo.on('value', function (snapshot) {
     // Add all the above fields
     networkInformation.current.dnac.ciscoCount = getLatestInfo(snapshot.val().networkDevices.aps)[0] + getLatestInfo(snapshot.val().networkDevices.sw)[0] + getLatestInfo(snapshot.val().networkDevices.routers)[0] + getLatestInfo(snapshot.val().networkDevices.wlc)[0];
     renderPage();
+    }
 });
 
 
@@ -102,7 +139,10 @@ function getLatestFiveEntries(object) {
     //get an arr of all the keys in the object sorted
     let sortedKeys = getSortedKeys(object);
 
-    let listOfData = [[],[]]
+    let listOfData = [
+        [],
+        []
+    ]
     listOfData[0].push(object[sortedKeys[(sortedKeys.length) - 1]]);
     listOfData[0].push(object[sortedKeys[(sortedKeys.length) - 2]]);
     listOfData[0].push(object[sortedKeys[(sortedKeys.length) - 3]]);
@@ -139,7 +179,7 @@ function calculatePercentageChange(previous, current) {
 function renderPage() {
     //networkDevices component render
     networkDevices.message = networkInformation.current.meraki.merakiCount + networkInformation.current.dnac.ciscoCount;
-    
+
 
     //Online Component Render
     onlineDevices.message = networkInformation.current.devices.online[0];
@@ -158,7 +198,7 @@ function renderPage() {
     myDeviceChart.data.datasets[0].data[0] = networkInformation.current.meraki.msCount[0] + networkInformation.current.dnac.switchCount[0];
     myDeviceChart.data.datasets[0].data[1] = networkInformation.current.meraki.mxCount[0] + networkInformation.current.dnac.routerCount[0];
     myDeviceChart.data.datasets[0].data[2] = networkInformation.current.meraki.mrCount[0] + networkInformation.current.dnac.apCount[0];
-    myDeviceChart.data.datasets[0].data[3] = networkInformation.current.dnac.wlcCount[0];  
+    myDeviceChart.data.datasets[0].data[3] = networkInformation.current.dnac.wlcCount[0];
     myDeviceChart.update();
 
     //---- Update OS Chart ----
@@ -172,23 +212,25 @@ function renderPage() {
 
 
 
-function findPopularOS(arr){
+function findPopularOS(arr) {
     //holds the most popular os
     let currentOS = ""
     //max amount of deices
     let currentCounter = 0;
     //Loop through the array
-    for(let i = 0; i < arr.length; i++){
+    for (let i = 0; i < arr.length; i++) {
         //If the current device amount is higher than previous found
-        if (arr[i][0] > currentCounter){
+        if (arr[i][0] > currentCounter) {
             //update the highest amount
             currentCounter = arr[i][0]
             //set the most popular os depending on index
-            if(i == 0){
+            if (i == 0) {
                 currentOS = 'Windows'
-            } if (i == 1){
+            }
+            if (i == 1) {
                 currentOS = 'Mac'
-            } if (i == 2){
+            }
+            if (i == 2) {
                 currentOS = 'Linux'
             }
         }
@@ -226,8 +268,15 @@ var offlineDevices = new Vue({
 var popularOS = new Vue({
     el: '#popularOS',
     data: {
-        message : 'Loading',
+        message: 'Loading',
         date: 'Loading'
+    }
+})
+
+var happinessRating = new Vue({
+    el: '#happinessRating',
+    data: {
+        message: 'Loading',
     }
 })
 
@@ -245,7 +294,7 @@ var myDeviceChart = new Chart(deviceChartContext, {
         }]
     },
     options: {
-        responsive : true,
+        responsive: true,
         scales: {
             yAxes: [{
                 ticks: {
@@ -275,9 +324,9 @@ var myDeviceChart = new Chart(deviceChartContext, {
 });
 
 
-function formatDate(dateString){
+function formatDate(dateString) {
     //If a date gets passed in that's undefined, returned nothing
-    if (dateString === undefined){
+    if (dateString === undefined) {
         return;
     }
 
@@ -290,7 +339,7 @@ function formatDate(dateString){
     let minute = SplitString[10] + SplitString[11]
 
     //return hh:mm day/month
-    return (hour + ':' + minute  + ' '+ day + '/' + month )
+    return (hour + ':' + minute + ' ' + day + '/' + month)
 }
 
 
@@ -299,21 +348,20 @@ var myLineChart = new Chart(osTrendsContext, {
     type: 'line',
     data: {
         labels: [],
-        datasets: [
-            {
+        datasets: [{
                 fill: false,
                 borderColor: "#3e95cd",
-                data: [1,2,3,4,5]
+                data: [1, 2, 3, 4, 5]
             },
             {
                 fill: false,
                 borderColor: "#8e5ea2",
-                data: [5,4,3,2,1]
+                data: [5, 4, 3, 2, 1]
             },
             {
                 fill: false,
-                borderColor : '#3cba9f',
-                data: [1,4,3,3,4]
+                borderColor: '#3cba9f',
+                data: [1, 4, 3, 3, 4]
             }
         ]
     },
@@ -324,3 +372,67 @@ var myLineChart = new Chart(osTrendsContext, {
     }
 });
 
+
+
+
+
+/// ------- AZURE BELOW 
+
+let baseURL = 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect'
+let key1 = '0c18352615074f4fae7f61b82ba78660'
+let key2 = 'e5254bdadbe3464aa6fd48943b5964d8'
+
+
+function processImage() {
+
+    // Request parameters.
+    var params = {
+        "returnFaceId": "true",
+        "returnFaceLandmarks": "false",
+        "returnFaceAttributes":
+            "age,gender,headPose,smile,facialHair,glasses,emotion," +
+            "hair,makeup,occlusion,accessories,blur,exposure,noise"
+    };
+
+    // Display the image.
+    var sourceImageUrl = document.getElementById("inputImage").value;
+
+
+    // Perform the REST API call.
+    $.ajax({
+        url: baseURL + "?" + $.param(params),
+
+        // Request headers.
+        beforeSend: function(xhrObj){
+            xhrObj.setRequestHeader("Content-Type","application/json");
+            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", key1);
+        },
+
+        type: "POST",
+
+         // Request body.
+         data: '{"url": ' + '"' + sourceImageUrl + '"}'
+        })
+
+    .done(function(data) {
+        // Show formatted JSON on webpage.
+        console.log(data[0].faceAttributes)
+        numOfDevicesChart.data.datasets[0].data[0] = data[0].faceAttributes.emotion.happiness * 100;
+        numOfDevicesChart.data.datasets[0].data[1] = data[0].faceAttributes.emotion.sadness * 100;
+        numOfDevicesChart.data.datasets[0].data[2] = data[0].faceAttributes.emotion.neutral * 100;
+
+        happinessRating.message = Math.floor(data[0].faceAttributes.emotion.happiness * 100) + '%';
+        numOfDevicesChart.update();
+    })
+
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        // Display error message.
+        var errorString = (errorThrown === "") ?
+            "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+        errorString += (jqXHR.responseText === "") ?
+            "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+                jQuery.parseJSON(jqXHR.responseText).message :
+                    jQuery.parseJSON(jqXHR.responseText).error.message;
+        alert(errorString);
+    });
+};

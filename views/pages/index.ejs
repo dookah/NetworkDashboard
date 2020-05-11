@@ -82,7 +82,7 @@
 				</div>
 				<div class="column is-3">
 					<div class="box" id="popularOS">
-						<h1 class="subtitle has-text-dark">Most Popular OS</h1>
+						<h1 class="subtitle has-text-dark">Popular OS</h1>
 						<h1 class="title has-text-dark"> {{ message }}</h1>
 						<h1 class="subtitle is-size-6 has-text-dark has-text-weight-light">{{ date }}</h1>
 					</div>
@@ -101,8 +101,8 @@
 						</div>
 
 						<p class="subtitle has-text-centered is-6">Number of Devices</p>
-						
-						<p class="subtitle has-text-centered is-6">Key</p>
+
+
 
 						<div class="tags is-centered">
 							<span class="tag is-medium has-text-white" style="background-color: #3e95cd">Routers</span>
@@ -121,7 +121,7 @@
 							<canvas id="osTrends" height="100"></canvas>
 						</div>
 						<p class="subtitle has-text-centered is-6">Timestamp</p>
-						<p class="subtitle has-text-centered is-6">Key</p>
+
 						<div class="tags is-centered">
 							<span class="tag is-medium has-text-white" style="background-color: #3e95cd">Windows</span>
 							<span class="tag is-medium has-text-white" style="background-color: #8e5ea2">Mac</span>
@@ -132,7 +132,7 @@
 
 				<div class="column is-2">
 					<div class='box bottomBar'>
-						
+
 						<h1 class='subtitle has-text-centered'> Satisfaction</h1>
 						<span class="tag is-danger is-pulled-right">Beta</span>
 						<br>
@@ -141,17 +141,26 @@
 						</div>
 						<hr>
 						<div class=" is-vcentered">
-							
-								<h1 class="title has-text-centered is-size-2 is-size-6-touch">83%</h1>
-							
-								<p class="is-size-6 has-text-centered  has-text-weight-light  is-size-6-touch">Of People Happy</p>
-							
+
+							<h1 id='happinessRating' class="title has-text-centered is-size-2 is-size-6-touch">{{ message }}</h1>
+
+							<p class="is-size-6 has-text-centered  has-text-weight-light  is-size-6-touch">Happiness Recognised</p>
+
 						</div>
 						<hr>
+
+						<div class="tags is-centered">
+							<span class="tag is-medium has-text-white" style="background-color: #18ca8e">Happy</span>
+							<span class="tag is-medium has-text-white" style="background-color: #FF6961">Unhappy</span>
+							<span class="tag is-medium has-text-dark" style="background-color: #e0e0e0">Neutral</span>
+						</div>
 						<p class='has-text-centered '>Powered by <strong>Cisco Meraki</strong></p>
-						
-							
-						
+
+						<!-- Bit of a hack, holding the image url here for the Azure call. -->
+						<input hidden type="text" name="inputImage" id="inputImage"
+						value="https://i.imgur.com/ebjEAa8.jpg" />
+
+
 					</div>
 				</div>
 			</div>
@@ -173,35 +182,31 @@
 							<button id="close"><i class="cui-icon icon icon-cancel_14"></i></button>
 							<h1 class="title">Settings</h1>
 							<hr>
-							<h1>General</h1>
-							Meraki
-							<div class="control">
-								<label class="radio">
-									<input type="radio" name="answer">
-									On
-								</label>
-								<label class="radio">
-									<input type="radio" name="answer">
-									Off
-								</label>
-							</div>
+							<h1 class="is-size-5">Update Listening</h1>
+							<label class="checkbox">
+								<input type="checkbox" id='merakiToggle' checked>
+								Meraki
+							</label>
+							<br>
 
-							DNA Center
-							<div class="control">
-								<label class="radio">
-									<input type="radio" name="answer">
-									On
-								</label>
-								<label class="radio">
-									<input type="radio" name="answer">
-									Off
-								</label>
-							</div>
+							<label class="checkbox">
+								<input type="checkbox" id='dnacToggle' checked>
+								DNA-C
+							</label>
+							<br>
+							<label class="checkbox">
+								<input type="checkbox" disabled>
+								ACI
+							</label>
+							<br>
 							<hr>
-							<h1 class="subtitle">Top Row</h1>
-<hr>
-							<h1 class="subtitle">Bottom Row</h1>
-
+							<h1 class="is-size-5">Top Row</h1>
+							<hr>
+							<h1 class="is-size-5">Bottom Row</h1>
+							<hr>
+							<h1 class="is-size-5">Danger Zone</h1>
+							
+							<button class='button is-danger' onclick="resetNetworkInformation()">Clear Data</button>
 						</div>
 
 					</div>
