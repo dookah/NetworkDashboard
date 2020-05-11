@@ -245,7 +245,7 @@ var myDeviceChart = new Chart(deviceChartContext, {
         }]
     },
     options: {
-        responsive : false,
+        responsive : true,
         scales: {
             yAxes: [{
                 ticks: {
