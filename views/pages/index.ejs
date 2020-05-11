@@ -57,7 +57,7 @@
 
 			<!-- Section for quick glance info-->
 
-			<div class="columns graphSection">
+			<div class="columns graphSection topRow">
 				<div class="column is-3">
 					<div class="box" id="networkDevices">
 						<h1 class="subtitle has-text-dark">Network Devices</h1>
@@ -91,7 +91,7 @@
 
 
 
-			<div class="columns graphSection">
+			<div class="columns graphSection bottomRow">
 				<div class="column is-3">
 					<div class='box bottomBar'>
 						<h1 class='subtitle has-text-centered'> Device Breakdown</h1>
@@ -158,7 +158,7 @@
 
 						<!-- Bit of a hack, holding the image url here for the Azure call. -->
 						<input hidden type="text" name="inputImage" id="inputImage"
-						value="https://i.imgur.com/ebjEAa8.jpg" />
+						value="https://i.imgur.com/dHUvpdi.png" />
 
 
 					</div>
@@ -201,8 +201,10 @@
 							<br>
 							<hr>
 							<h1 class="is-size-5">Top Row</h1>
+							<button class='button' onclick="toggleTopRow()">Toggle</button>
 							<hr>
 							<h1 class="is-size-5">Bottom Row</h1>
+							<button class='button' onclick="toggleBottomRow()">Toggle</button>
 							<hr>
 							<h1 class="is-size-5">Danger Zone</h1>
 							
