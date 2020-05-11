@@ -110,7 +110,7 @@ html {
 	color: rgb(89, 26, 163) !important;
 }
 .bottomBar{
-	height: 60vh !important;
+	height: 100% !important;
 	width: auto;
 	overflow: hidden;
 }

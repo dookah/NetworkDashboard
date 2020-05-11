@@ -1,3 +1,4 @@
+// ------------------- Firebase Config --------------------
 let config = {
     apiKey: "AIzaSyD8szGZGGZsuruITbUe6VWS-vZMq492bKI",
     authDomain: "dashboard-cisco.firebaseapp.com",
@@ -8,7 +9,6 @@ let config = {
     appId: "1:10883792064:web:bb39a00f4f0887f914c125",
     measurementId: "G-462T1ZCYCQ"
 };
-
 
 //Object to hold the current state of the network
 let networkInformation = {
@@ -35,19 +35,12 @@ let networkInformation = {
     }
 }
 
-
 // Initialize Firebase
 firebase.initializeApp(config);
-
 // Get a reference to the database service
 var database = firebase.database();
 
-
-//Holds the total device count for each category
-let totalMerakiDeviceCount = null;
-let totalDnaDeviceCount = null;
-
-//References Meraki Devices entry in Firebase
+//References meraki and dnac Devices entry in Firebase
 var merakiDeviceInfo = firebase.database().ref('/meraki');
 var dnacDeviceInfo = firebase.database().ref('/dnac');
 
@@ -73,6 +66,7 @@ merakiDeviceInfo.on('value', function (snapshot) {
     //call the render function
     renderPage();
 });
+//On DNAC updating call this function
 dnacDeviceInfo.on('value', function (snapshot) {
     networkInformation.current.dnac.apCount = getLatestInfo(snapshot.val().networkDevices.aps);
     networkInformation.current.dnac.switchCount = getLatestInfo(snapshot.val().networkDevices.sw);
@@ -149,15 +143,15 @@ function renderPage() {
 
     //Online Component Render
     onlineDevices.message = networkInformation.current.devices.online[0];
-    onlineDevices.date = formatDate(networkInformation.current.devices.online[1]);
+    onlineDevices.date = 'Updated: ' + formatDate(networkInformation.current.devices.online[1]);
 
     //Offline Component Render
     offlineDevices.message = networkInformation.current.devices.offline[0];
-    offlineDevices.date = formatDate(networkInformation.current.devices.offline[1]);
+    offlineDevices.date = 'Updated: ' + formatDate(networkInformation.current.devices.offline[1]);
 
     //Popular OS Component Render
     popularOS.message = findPopularOS(networkInformation.current.devices.os);
-    popularOS.date = formatDate(networkInformation.current.devices.os[0][1])
+    popularOS.date = 'Updated: ' + formatDate(networkInformation.current.devices.os[0][1])
 
     //--------  Update Charts on page -------
     //---- Update Device Histogram ------
@@ -282,11 +276,12 @@ var myDeviceChart = new Chart(deviceChartContext, {
 
 
 function formatDate(dateString){
-
+    //If a date gets passed in that's undefined, returned nothing
     if (dateString === undefined){
         return;
     }
 
+    //split the string up
     let SplitString = dateString.split('')
     let year = SplitString[0] + SplitString[1] + SplitString[2] + SplitString[3]
     let month = SplitString[4] + SplitString[5]
@@ -294,6 +289,7 @@ function formatDate(dateString){
     let hour = SplitString[8] + SplitString[9]
     let minute = SplitString[10] + SplitString[11]
 
+    //return hh:mm day/month
     return (hour + ':' + minute  + ' '+ day + '/' + month )
 }
 
@@ -304,17 +300,20 @@ var myLineChart = new Chart(osTrendsContext, {
     data: {
         labels: [],
         datasets: [
-            {fill: false,
-             strokeColor: "rgba(220,220,220,1)",
-             data: [1,2,3,4,5]
+            {
+                fill: false,
+                borderColor: "#3e95cd",
+                data: [1,2,3,4,5]
             },
-            {fill: false,
-             strokeColor: "rgba(151,187,205,1)",
-             data: [5,4,3,2,1]
+            {
+                fill: false,
+                borderColor: "#8e5ea2",
+                data: [5,4,3,2,1]
             },
-            {fill: false,
-            borderColor : '#3cba9f',
-             data: [1,4,3,3,4]
+            {
+                fill: false,
+                borderColor : '#3cba9f',
+                data: [1,4,3,3,4]
             }
         ]
     },
